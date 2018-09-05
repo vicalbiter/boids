@@ -25,12 +25,12 @@ Todas estas clases contienen código comentado en cada uno de sus métodos.
 En cada momento del tiempo, cuando a un ave se le pide actualice su velocidad dentro de la simulación, ésta lo hace a través del cálculo de un vector de aceleración que es el resultado de sumar cinco vectores distintos, cuyas funciones respectivas son las de:
 
 1. Hacer que el ave busque igualar la dirección de su velocidad con la de sus vecinos (vector _Alignment_).
-2. Hacer que el ave evite impactarse contra otras aves (vector _Avoidance_).
+2. Hacer que el ave evite impactarse contra otras aves (vector _Separation_).
 3. Hacer que el ave se dirija hacia sus vecinos (vector _Cohesion_).
 4. Hacer que el ave busque siempre mantenerse cerca del origen (vector _Home_).
 5. Hacer que el ave vuele lejos del depredador (vector _Predator_).
 
-El cálculo de cada uno de estos vectores es llevado a cabo por métodos privados dentro de la clase *Boid.java*, donde cada uno toma como parámetro al conjunto de aves vecinas de la ave en cuestión. Una vez calculados estos vectores, éstos se escalan de acuerdo a unas constantes globales configurables (_C_ALIGNMENT_, _C_AVOIDANCE_, _C_COHESION_, _C_HOME_ y _C_PREDATOR_), se suman y su resultado es sumado a la velocidad actual del ave (dando como resultado un vector de velocidad con una nueva dirección y magnitud). Para limitar la velocidad con la que las aves pueden trasladarse a través del plano, este nuevo vector velocidad se convierte en un vector unitario y se multiplica por una constante global configurable (_C_MAGNITUDE_) que representa la velocidad máxima posible del ave. Todo esto se lleva a cabo en el método _updateVelocity()_:
+El cálculo de cada uno de estos vectores es llevado a cabo por métodos privados dentro de la clase *Boid.java*, donde cada uno toma como parámetro al conjunto de aves vecinas de la ave en cuestión. Una vez calculados estos vectores, éstos se escalan de acuerdo a unas constantes globales configurables (_C_ALIGNMENT_, _C_SEPARATION_, _C_COHESION_, _C_HOME_ y _C_PREDATOR_), se suman y su resultado es sumado a la velocidad actual del ave (dando como resultado un vector de velocidad con una nueva dirección y magnitud). Para evitar que la velocidad con la que las aves pueden trasladarse a través del plano se incremente demasiado rápido, antes de ser sumado al vector de velocidad del ave, este vector de aceleración se convierte en un vector unitario y se multiplica por una constante global configurable (_C_MAGNITUDE_) que representa la magnitud de la aceleración máxima posible del ave. Todo esto se lleva a cabo en el método _updateVelocity()_:
 
 ```javascript
   public void updateVelocity(Boid[] neighbors, Vector predator) {
