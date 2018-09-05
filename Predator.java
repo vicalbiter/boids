@@ -12,6 +12,7 @@ public class Predator extends Thread {
     private static double Y_LIMIT = 5.0;
     private LinkedBlockingQueue<Vector> predq;
     
+    // Initialize a predator, given a position in the plane
     public Predator(double x, double y, LinkedBlockingQueue<Vector> predq) {
         position = new Point2D(x, y);
         this.predq = predq;
@@ -21,22 +22,26 @@ public class Predator extends Thread {
         return position;
     }
     
+    // Helper method to set a random destination for the predator
     public Point2D setDestination() {
         double x = StdRandom.uniform(-0.5*X_LIMIT, 0.5*X_LIMIT);
         double y = StdRandom.uniform(-0.5*Y_LIMIT, 0.5*Y_LIMIT);
         return new Point2D(x, y);
     }
     
+    // Heitlper method to set a random speed (magnitude of the velocity vector) for the predator
     public double setSpeed() {
         return StdRandom.uniform(0.05, 0.1);
     }
     
+    // Update the predator's current position by adding its position and velocity vectors
     public void updatePosition(Vector velocity) {
         double x = position.x() + velocity.cartesian(0);
         double y = position.y() + velocity.cartesian(1);
         position = new Point2D(x, y);
     }
     
+    // Execute a new thread and update the predator' position and velocity at every time step
     public void run() {
         while (true) {
             Point2D destination = setDestination();
